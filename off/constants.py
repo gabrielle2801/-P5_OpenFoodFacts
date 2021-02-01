@@ -1,0 +1,11 @@
+OFF_API = "https://fr.openfoodfacts.org/"
+MAX = 50
+HOMEPAGE = "homepage"
+RESEARCH_BY_CATEGORY = "recherche_par_category"
+PRODUCTS_FOR_CATEGORY = "produits_categorie"
+PRODUCT_DETAIL = "Détail_produit"
+SAVE_SUBSTITUT = "Sauvegarde_substitut_choisi"
+SUBSTITUTES_LIST = "Liste_produits_recherchés"
+RESEARCH_BY_NAME = "recherche_produit"
+FOUND_PRODUCT = "Listes_produits_trouvés_nom"
+PRODUCT_REMINDER = "Détails_produit_liste_substituts"
