@@ -1,5 +1,5 @@
 from off.model.api.requester import request_off
-from constants import MAX
+from off.constants import MAX
 
 
 class OpenFoodFactsApi:
@@ -13,9 +13,11 @@ class OpenFoodFactsApi:
         categories = [data.get('name') for data in data_category
                       if data.get("name")]
         category_name = categories[0:MAX]
+        print(category_name)
         return category_name
 
     def get_products(self, category_name):
+        print(category_name)
         query = {
             "action": "process",
             "tagtype_0": "categories",
@@ -24,7 +26,8 @@ class OpenFoodFactsApi:
             "sort_by": "unique_scans_n",
             "page_size": 100,
             "json": 1}
-
+        print(query)
         response_product = request_off("cgi/search.pl?", query)
+        print(response_product)
         result_product = response_product.json()
         return result_product["products"]

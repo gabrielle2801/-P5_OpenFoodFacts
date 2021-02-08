@@ -1,5 +1,7 @@
 OFF_API = "https://fr.openfoodfacts.org/"
+OFF_API_WORLD = "https://world.openfoodfacts.org/"
 MAX = 50
+DB_ENGINE_URL = 'postgresql://localhost/db_off'
 HOMEPAGE = "homepage"
 RESEARCH_BY_CATEGORY = "recherche_par_category"
 PRODUCTS_FOR_CATEGORY = "produits_categorie"

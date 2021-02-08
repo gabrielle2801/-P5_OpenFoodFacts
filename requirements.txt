@@ -1,3 +1,7 @@
 SQLAlchemy == 1.1.2
 requests == 2.7.0
+psycopg2-binary == 2.7.4
+sqlalchemy-utils == 0.36.8
+
+
 

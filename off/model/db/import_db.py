@@ -1,17 +1,37 @@
-from off.model.db.models import Product, Store
+from off.model.db.models import Product, Store, Base
 from off.model.query.manager import DBManager
 from off.model.api.off_client import OpenFoodFactsApi
-
-global Session
+from off.constants import DB_ENGINE_URL
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import database_exists, create_database
 
 
 class Database:
     def __init__(self):
         self.openFoodFactsApi = OpenFoodFactsApi()
-        self.list_category = self.openFoodFactsApi.get_categories()
+        self.create_database()
+        self.create_tables()
         self.import_data()
 
+    def create_database(self):
+        print("Création de la Base de Données...")
+        engine = create_engine(
+            "postgresql+psycopg2://postgres:purbeurre@localhost/off_db")
+        if not database_exists(engine.url):
+            create_database(engine.url)
+
+        print(database_exists(engine.url))
+
+    def create_tables(self):
+        print("Création des Tables ...")
+        global Session
+        engine = create_engine(DB_ENGINE_URL)
+        Session = sessionmaker(bind=engine)
+        Base.metadata.create_all(engine)
+
     def import_data(self):
+        self.list_category = self.openFoodFactsApi.get_categories()
         manager = DBManager()
         for category in self.list_category:
             products = self.openFoodFactsApi.get_products(category)

@@ -2,7 +2,7 @@ from off.view.view import HomepageView, CategoryListView, ProductByCategoryView,
     ProductDetailView, SubstituteListView, ProductByNameView,\
     ProductByNameListView, ProductReminderView
 from off.model.query.manager import DBManager
-from constants import PRODUCT_DETAIL, SAVE_SUBSTITUT, SUBSTITUTES_LIST,\
+from off.constants import PRODUCT_DETAIL, SAVE_SUBSTITUT, SUBSTITUTES_LIST,\
     FOUND_PRODUCT, HOMEPAGE, RESEARCH_BY_CATEGORY, PRODUCTS_FOR_CATEGORY,\
     RESEARCH_BY_NAME, PRODUCT_REMINDER
 
