@@ -16,8 +16,7 @@ class Database:
 
     def create_database(self):
         print("Création de la Base de Données...")
-        engine = create_engine(
-            "postgresql+psycopg2://postgres:purbeurre@localhost/off_db")
+        engine = create_engine(DB_ENGINE_URL)
         if not database_exists(engine.url):
             create_database(engine.url)
 
@@ -38,6 +37,7 @@ class Database:
             # insert data to Product, Store, Brand
             for product in products:
                 if not product.get("product_name") or \
+                        not product.get("nutrition_grades") or\
                         manager.session.query(Product).filter(
                             Product.barcode == product.get("code")).first()\
                         is not None:
@@ -63,13 +63,12 @@ class Database:
                 for category in category_names:
                     categories = manager.get_or_create_category(category)
                     product_data.categories.append(categories)
+
                 if product.get("stores"):
-                    for store_name in product.get("stores").split(","):
-                        store = manager.session.query(Store).filter(
-                            Store.name == store_name).first()
-                    if not store:
-                        store = Store(name=store_name)
-                    product_data.stores.append(store)
+                    store_names = product.get("stores").split(",")
+                    for store in store_names:
+                        stores = manager.get_or_create_store(store)
+                        product_data.stores.append(stores)
 
                 manager.session.add(product_data)
         manager.session.commit()

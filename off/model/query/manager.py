@@ -1,9 +1,10 @@
 from off.model.db.models import Product, Category, Store, Substitute, Brand
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from off.constants import DB_ENGINE_URL
 from sqlalchemy import asc
 global Session
-engine = create_engine('postgresql://localhost/db_off')
+engine = create_engine(DB_ENGINE_URL)
 Session = sessionmaker(bind=engine)
 
 
@@ -31,13 +32,22 @@ class DBManager():
             self.session.add(brand)
         return brand
 
+    def get_or_create_store(self, store_name):
+
+        store = self.session.query(Store).filter(
+            Store.name == store_name).first()
+        if not store or store == "":
+            store = Store(name=store_name)
+            self.session.add(store)
+        return store
+
     # Research by category
     def get_categories(self):
         return self.session.query(Category).select_from(Category).order_by(
             asc(Category.name)).all()
 
     def get_products_for_category(self, category_id):
-        return self.session.query(Product).select_from(Category)\
+        return self.session.query(Product).select_from(Product)\
             .join(Product.categories).filter(Category.id == category_id).all()
 
     def get_substitutes(self, product_id, category_id=None):
@@ -51,17 +61,38 @@ class DBManager():
             filter(Category.id == category_id,
                    Product.nutriscore < product.nutriscore,
                    Product.nova < product.nova).all()
+        if not product_search:
+            product_search = self.session.query(Product).\
+                select_from(Category).join(Product.categories).\
+                filter(Category.id == category_id,
+                       Product.nutriscore < product.nutriscore).all()
         result.extend(product_search)
-        return result
+        if len(result) < 3:
+            return result
+        else:
+            return result[0:2]
 
     # get stores for product search by categorie
     def get_stores_for_product(self, product_id):
-        stores_list = self.session.query(Store).select_from(Product)\
+        stores_product = self.session.query(Store).select_from(Product)\
             .join(Product.stores).filter(Product.id == product_id).all()
         store_result = ""
-        for store in stores_list:
-            store_result = store.name + ", " + store_result
+        for store in stores_product:
+            store_result = store.name + " - " + store_result
         return store_result
+
+    # get stores for substituts
+    def get_stores_for_substituts(self, substitut_list):
+        list_stores = []
+        store_result = ''
+        for substitut in substitut_list:
+            stores_substitut = self.session.query(Store).select_from(Product)\
+                .join(Product.stores).filter(Product.id == substitut.id).all()
+            for stores in stores_substitut:
+                store_result = stores.name + " - " + store_result
+            list_stores.extend([store_result])
+            store_result = ""
+        return list_stores
 
     def get_products(self, product_id):
         return self.session.query(Product).select_from(Product).filter(

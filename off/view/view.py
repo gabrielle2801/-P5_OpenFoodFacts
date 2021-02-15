@@ -25,17 +25,24 @@ class HomepageView(GenericView):
             """)
 
     def get_next_page(self):
-        option = input("Que choissisez vous ?")
-        if option == "1":
-            return RESEARCH_BY_CATEGORY
-        elif option == "2":
-            return RESEARCH_BY_NAME
-        elif option == "3":
-            return SUBSTITUTES_LIST
-        elif option == "4":
-            print("Merci et à bientôt")
-            os.system('clear')
-            exit()
+        while True:
+            value = input("Que choissisez vous ?")
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+
+            if value == "1":
+                return RESEARCH_BY_CATEGORY
+            elif value == "2":
+                return RESEARCH_BY_NAME
+            elif value == "3":
+                return SUBSTITUTES_LIST
+            elif value == "4":
+                print("Merci et à bientôt")
+                os.system('clear')
+                exit()
+            else:
+                print("Erreur de saisie")
 
 
 class CategoryListView(GenericView):
@@ -56,7 +63,7 @@ class CategoryListView(GenericView):
                 return HOMEPAGE, None
             try:
                 return PRODUCTS_FOR_CATEGORY, int(value)
-            except:
+            except Exception:
                 pass
 
 
@@ -64,7 +71,7 @@ class ProductByCategoryView(GenericView):
 
     def display(self, products):
         for id, product in enumerate(products):
-            print(product.id, " - ", product.name)
+            print(product.id, " - ", product)
 
     def get_next_page(self):
         while True:
@@ -79,18 +86,18 @@ class ProductByCategoryView(GenericView):
                 return HOMEPAGE, None
             try:
                 return PRODUCT_DETAIL, int(value)
-            except:
+            except Exception:
                 pass
 
 
 class ProductDetailView(GenericView):
 
-    def display(self, product, substituts, stores):
+    def display(self, product, substituts, stores_product, stores_substitutes):
         print(product.id, " - name of the product : ", product.name)
         print('\t'"Nutriscore : ", product.nutriscore.upper())
         print('\t'"Nova group : ", product.nova)
         print('\t' "URL :", product.url)
-        print('\t'"Stores :", stores, '\n')
+        print('\t'"Stores :", stores_product, '\n')
         if substituts == []:
             print("pas de substituts trouvés !")
         else:
@@ -101,7 +108,7 @@ class ProductDetailView(GenericView):
                 print('\t' "Nova group :", substitute.nova)
                 print('\t' "Description :", substitute.description)
                 print('\t' "URL :", substitute.url)
-                print('\t' "Stores : ", stores)
+                print('\t' "Stores : ", stores_substitutes[id])
 
     def get_next_page(self, substituts):
         while True:
@@ -117,7 +124,7 @@ class ProductDetailView(GenericView):
                 return HOMEPAGE, None
             try:
                 return SAVE_SUBSTITUT, int(value)
-            except:
+            except Exception:
                 pass
 
 
@@ -130,9 +137,9 @@ class ProductByNameView(GenericView):
         while True:
             value = input("Veuillez tapez le nom du produit : ")
             if value.lower() == "h":
-                return HOMEPAGE, None
+                return HOMEPAGE, None, None
             else:
-                return FOUND_PRODUCT, value
+                return FOUND_PRODUCT, value, None
 
 
 class ProductByNameListView(GenericView):
@@ -156,7 +163,7 @@ class ProductByNameListView(GenericView):
                 return HOMEPAGE, None
             try:
                 return PRODUCT_DETAIL, int(value)
-            except:
+            except Exception:
                 pass
 
 
@@ -183,7 +190,7 @@ class SubstituteListView(GenericView):
                 continue
             try:
                 return PRODUCT_REMINDER, int(product_reminder)
-            except:
+            except Exception:
                 pass
 
 
@@ -202,7 +209,7 @@ class ProductReminderView(GenericView):
             "Voulez vous chercher d'autres produits ? yes/no"'\n')
         if value.lower() == "yes":
             return HOMEPAGE, value
-        elif value == "no":
+        elif value.lower() == "no":
             print("Merci et à bientôt")
             os.system('clear')
             exit()

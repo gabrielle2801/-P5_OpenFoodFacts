@@ -15,6 +15,7 @@ class Controller:
         self.choice = None
         self.choice_category = None
         self.choice_product = None
+        self.substitute_proposed = None
         self.run()
 
     def run(self):
@@ -42,8 +43,10 @@ class Controller:
                     category_id=self.choice_category)
                 store = manager.get_stores_for_product(
                     product_id=self.choice_product)
+                store_substitut = manager.get_stores_for_substituts(
+                    substitut_list=substituts)
                 view = ProductDetailView()
-                view.display(product, substituts, store)
+                view.display(product, substituts, store, store_substitut)
                 self.page, self.choice = view.get_next_page(
                     substituts=substituts)
             elif self.page == SAVE_SUBSTITUT:
@@ -53,23 +56,13 @@ class Controller:
             elif self.page == RESEARCH_BY_NAME:
                 view = ProductByNameView()
                 view.display()
-                self.page, self.input = view.get_next_page()
+                self.page, self.input, self.choice_category = view.get_next_page()
             elif self.page == FOUND_PRODUCT:
-                products = manager.search_product(self.input)
+                product_found = manager.search_product(self.input)
                 view = ProductByNameListView()
-                view.display(products=products)
+                view.display(products=product_found)
                 self.page, self.choice_product = view.get_next_page(
-                    products=products)
-            elif self.page == PRODUCT_DETAIL:
-                product = manager.get_products(product_id=self.choice_product)
-                substituts = manager.get_substitutes(
-                    product_id=self.choice_product,
-                    category_id=self.choice_category)
-                store = manager.get_stores_for_product(
-                    product_id=self.choice_product)
-                view = ProductDetailView()
-                view.display(product, substituts, store)
-                self.page, self.choice = view.get_next_page()
+                    products=product_found)
             elif self.page == SUBSTITUTES_LIST:
                 substituts = manager.get_substitute_saved()
                 products = manager.get_products(product_id=self.choice_product)

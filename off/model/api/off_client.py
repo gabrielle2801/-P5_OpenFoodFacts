@@ -1,10 +1,8 @@
 from off.model.api.requester import request_off
-from off.constants import MAX
+from off.constants import MAX_CATEGORIES, MAX_PRODUCTS
 
 
 class OpenFoodFactsApi:
-    def __init__(self):
-        print("ok")
 
     def get_categories(self):
         response_category = request_off("categories.json?sort_by=products")
@@ -12,7 +10,7 @@ class OpenFoodFactsApi:
         data_category = results_category.get('tags')
         categories = [data.get('name') for data in data_category
                       if data.get("name")]
-        category_name = categories[0:MAX]
+        category_name = categories[0:MAX_CATEGORIES]
         print(category_name)
         return category_name
 
@@ -24,7 +22,7 @@ class OpenFoodFactsApi:
             "tag_contains_0": "contains",
             "tag_0": category_name,
             "sort_by": "unique_scans_n",
-            "page_size": 100,
+            "page_size": MAX_PRODUCTS,
             "json": 1}
         print(query)
         response_product = request_off("cgi/search.pl?", query)
