@@ -1,6 +1,5 @@
 # READ ME
 ### Utilisez les données publiques de l'OpenFoodFacts
-
 **Startup Pur Beurre**
 _______________________________
 **Cahier des charges**
@@ -13,7 +12,7 @@ _______________________________
 **Comment installer le programme**
 
 Les utilisateurs doivent, tout d'abord, installer les modules situés dans le fichier requirements dans le terminal.
-Ensuite, créer et insérer les données dans la Base -> **off_db** nom de la Base de Données
+Ensuite, créer et insérer les données dans la Base -> **off_db** nom de la Base de Données.
 Puis lancer le programme.
 ``` shell
 pip install -r requirements.txt
@@ -24,6 +23,7 @@ Pour accéder à l'environnement virtuel, taper la ligne de commande suivante da
 ``` shell
 source env/bin/activate
 ```
+
 _______________________________
 
 **Description du parcours utilisateur**
@@ -33,7 +33,7 @@ _______________________________
 L'utilisateur a le choix entre plusieurs options :
 1. Quel aliment souhaite-t-il remplacer ?
 2. Taper **le produit** qu'il souhaite remplacer.
-3. Retrouver **ses aliments** substitués.
+3. Retrouver **l'aliment** substitué.
 4. Quitter
 
 Si l'utilisateur choisi l'option **1**, il devra sélectionner **la catégorie** puis **l'aliment** qu'il désire remplacer.
@@ -53,7 +53,8 @@ ________________________________
 * Insérer les produits substitués choisis dans la Base de Données
 _____________________________
 
-Méthode Agile -> Users Stories / Tableau de tâches et sous tâches sur Trello https://trello.com/b/NbTMwPa1/p5-offapi
+Méthode Agile -> Users Stories / Tableau de tâches et sous tâches sur Trello :
+https://trello.com/b/NbTMwPa1/p5-offapi
 Schéma de la Base de Données -> MPD réaliser sur InDesign
 Maquette réalisée sur InDesign
 Base de Données sur PostgreSql, Postico (visualiser les tables, effectuer des queries)
