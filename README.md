@@ -7,20 +7,23 @@ _______________________________
 
 Pur Beurre connait bien les habitudes alimentaires des français.
 Ceux-ci aimeraient changer leur alimentation, mais comment faire ?
-* Comment choisir un produit de substitution ?
-* Où l'acheter ?
+* comment choisir un produit de substitution ?
+* où l'acheter ?
 _______________________________
 **Comment installer le programme**
 
-Les utilisateurs doivent installer les modules situés dans le fichier requirements,
-en tapant la ligne de commande suivante :
-Installer SQLAlchemy, requests par le fichier requirements.txt
--> **installer pip install -r requirements.txt**
-Pour créer la base de Données
--> **python -m off.importer_off_db**
-Le programme crée une Base de Données "off_db" PostgreSQL avec un password.
-Pour utiliser le programme, ils doivent lancer le programme avec la ligne de commande suivante :
-->**python -m off**
+Les utilisateurs doivent, tout d'abord, installer les modules situés dans le fichier requirements dans le terminal.
+Ensuite, créer et insérer les données dans la Base -> **off_db** nom de la Base de Données
+Puis lancer le programme.
+``` shell
+pip install -r requirements.txt
+python -m off.importer_off_db
+python -m off
+```
+Pour accéder à l'environnement virtuel, taper la ligne de commande suivante dans le Terminal :
+``` shell
+source env/bin/activate
+```
 _______________________________
 
 **Description du parcours utilisateur**
@@ -48,14 +51,12 @@ ________________________________
 * Répéter la question en cas d'erreur de la saisie
 * Recherche des produits dans la Base de Données
 * Insérer les produits substitués choisis dans la Base de Données
+_____________________________
 
-________________________________
-
-```
-Méthode Agile -> Users Stories / Tableau de tâches et sous tâches sur Trello
-Schéma de la Base de Données -> MPD réaliser sur Indesign
-Maquette réalisé sur Indesign
+Méthode Agile -> Users Stories / Tableau de tâches et sous tâches sur Trello https://trello.com/b/NbTMwPa1/p5-offapi
+Schéma de la Base de Données -> MPD réaliser sur InDesign
+Maquette réalisée sur InDesign
 Base de Données sur PostgreSql, Postico (visualiser les tables, effectuer des queries)
 Script Python
-```
+
 
