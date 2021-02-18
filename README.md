@@ -5,7 +5,7 @@ _______________________________
 **Cahier des charges**
 
 Pur Beurre connait bien les habitudes alimentaires des français.\
-Ceux-ci aimeraient changer leur alimentation, mais comment faire ?\
+Ceux-ci aimeraient changer leur alimentation, mais comment faire ?
 * comment choisir un produit de substitution ?
 * où l'acheter ?
 _______________________________
@@ -13,13 +13,13 @@ _______________________________
 
 Les utilisateurs doivent, tout d'abord, installer les modules situés dans le fichier requirements dans le terminal.\
 Ensuite, créer et insérer les données dans la Base -> **off_db** nom de la Base de Données.\
-Puis lancer le programme.\
+Puis lancer le programme.
 ``` shell
 pip install -r requirements.txt
 python -m off.importer_off_db
 python -m off
 ```
-Pour accéder à l'environnement virtuel, taper la ligne de commande suivante dans le Terminal :\
+Pour accéder à l'environnement virtuel, taper la ligne de commande suivante dans le Terminal :
 ``` shell
 source env/bin/activate
 ```
@@ -41,7 +41,7 @@ Si l'utilisateur choisi l'option **1**, il devra sélectionner **la catégorie**
 -> L'utilisateur a la possibilité de sauvegarder le substitut dans la base de données.\
 Si l'utilisateur choisi l'option **2**, il peut taper le nom du produit directement dans le programme.\
 A tout moment, il peut retourner à la page principale en tapant **h**.\
-En cas de faute de frappe, il revient sur la question.\
+En cas de faute de frappe, il revient sur la question.
 
 ________________________________
 **Fonctionnalités**
@@ -58,6 +58,6 @@ Méthode Agile -> Users Stories / Tableau de tâches et sous tâches sur Trello 
 Schéma de la Base de Données -> MPD réaliser sur InDesign\
 Maquette réalisée sur InDesign\
 Base de Données sur PostgreSql, Postico (visualiser les tables, effectuer des queries)\
-Script Python\
+Script Python
 
 
