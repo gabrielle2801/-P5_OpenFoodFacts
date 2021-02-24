@@ -3,7 +3,16 @@ from off.constants import OFF_API, OFF_API_WORLD
 
 
 def request_off(url, params=None):
+    """Request to the Openfoodfacts Api
 
+    Parameters:
+        url (STR): adress write on off_client.py
+        params (None, optional): queries write on get_products function
+            locate on off_client.py
+
+    Returns:
+        LIST : if the status is 200 all products or categories
+    """
     response = requests.get(OFF_API + url, params=params)
     print(response)
     print(response.url)

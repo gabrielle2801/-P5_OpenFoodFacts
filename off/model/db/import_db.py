@@ -1,4 +1,4 @@
-from off.model.db.models import Product, Store, Base
+from off.model.db.models import Product, Base
 from off.model.query.manager import DBManager
 from off.model.api.off_client import OpenFoodFactsApi
 from off.constants import DB_ENGINE_URL
@@ -8,13 +8,30 @@ from sqlalchemy_utils import database_exists, create_database
 
 
 class Database:
+
+    """Create and insert data on Database off_db
+
+    Attributes:
+        openFoodFactsApi (TYPE): extract data from Api response
+    """
+
     def __init__(self):
+
         self.openFoodFactsApi = OpenFoodFactsApi()
         self.create_database()
         self.create_tables()
         self.import_data()
 
     def create_database(self):
+        '''
+        This function create database 'off_db'
+
+        Deleted Parameters:
+            DB_ENGINE_URL: 'postgresql://postgres:purbeurre@localhost:5432/off_db'
+
+        No Longer Returned:
+            create_database: create the DB with engine.url
+        '''
         print("Création de la Base de Données...")
         engine = create_engine(DB_ENGINE_URL)
         if not database_exists(engine.url):
@@ -23,6 +40,47 @@ class Database:
         print(database_exists(engine.url))
 
     def create_tables(self):
+        '''
+        This Function create tables on database 'off_db'.
+
+        Parameters:
+            Class Product : main table 'product' has attributes as
+                            * id : primary key
+                            * name
+                            * nutriscore : A to E
+                            * nova : 1 to 4
+                            * url : link to detail product on OFF
+                            * barcode
+                            * description : ingredients detail
+                            * brand_id = many to one relationship Foreign key
+            Class Brand :  table 'brand' many to one (product -> brand)
+                            * id : primary key
+                            * name
+                            * label
+
+            Class Store : table 'store' many to many relationship
+                            * id : primary key
+                            * name
+            Class product_store : many to many (product -> store)
+                            * product_id : Foreign key
+                            * store_id : Foreign key
+            Class Category : table 'category' many to many relationship
+                            * id : primary key
+                            * name
+            Class product_category : many to many (product -> category)
+                            * product_id
+                            * category_id
+            Class Substitut : table 'substitute'
+                            one to many (product -> substitute)
+                            * id : primary key
+                            * product_id : Foreign key
+                            * substitute_id : Foreign key
+
+        No Longer Returned:
+            create engine ('postgresql://postgres:purbeurre@localhost:5432/off_db')
+            Open a session
+            create_all: create tables on databse 'off_db'
+        '''
         print("Création des Tables ...")
         global Session
         engine = create_engine(DB_ENGINE_URL)
@@ -30,17 +88,22 @@ class Database:
         Base.metadata.create_all(engine)
 
     def import_data(self):
-        self.list_category = self.openFoodFactsApi.get_categories()
+        '''
+        Insert data on 'off_db'
+        insert data on table Product
+        check duplicates and empty data
+        '''
+        self.list_category = self.OpenFoodFactsApi.get_categories()
         manager = DBManager()
         for category in self.list_category:
             products = self.openFoodFactsApi.get_products(category)
             # insert data to Product, Store, Brand
             for product in products:
-                if not product.get("product_name") or \
-                        not product.get("nutrition_grades") or\
+                if (not product.get("product_name")
+                    or not product.get("nutrition_grades") or
                         manager.session.query(Product).filter(
-                            Product.barcode == product.get("code")).first()\
-                        is not None:
+                            Product.barcode == product.get("code")).first()
+                        is not None):
 
                     continue
                 if product.get("labels"):

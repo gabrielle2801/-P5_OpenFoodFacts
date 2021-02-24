@@ -5,6 +5,12 @@ from off.constants import MAX_CATEGORIES, MAX_PRODUCTS
 class OpenFoodFactsApi:
 
     def get_categories(self):
+        """response of the request to extract data from API
+            openfoodfacts
+
+        Returns:
+            LIST: categories list
+        """
         response_category = request_off("categories.json?sort_by=products")
         results_category = response_category.json()
         data_category = results_category.get('tags')
@@ -15,6 +21,16 @@ class OpenFoodFactsApi:
         return category_name
 
     def get_products(self, category_name):
+        """response of the request to extract data from API
+            with queries parameters response : product list according to
+            the best categories
+
+        Parameters:
+            category_name (LIST): 10 most popular categories
+
+        Returns:
+            LIST: list of products
+        """
         print(category_name)
         query = {
             "action": "process",

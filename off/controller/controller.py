@@ -8,6 +8,29 @@ from off.constants import PRODUCT_DETAIL, SAVE_SUBSTITUT, SUBSTITUTES_LIST,\
 
 
 class Controller:
+
+    """ Class taking acount of user actions
+
+    Attributes:
+        choice (INT): User selected  homepage menu
+        choice_category (INT): return a user category choice
+        choice_product (INT): return product of category list
+        input (STR): return a product dial on keyboard
+        page (TYPE): return a user page choice
+                    * HOMEPAGE
+                    * RESEARCH_BY_CATEGORY
+                    * PRODUCT_DETAIL
+                    * SAVE_SUBSTITUT
+                    * RESEARCH_BY_NAME
+                    * FOUND_PRODUCT
+                    * SUBSTITUTES_LIST
+                    * PRODUCT_REMINDER
+
+        running (bool): if is True the function is running
+        substitute_proposed (INT): Return substitut where nutrition grade is
+        better than product researched
+    """
+
     def __init__(self):
         self.page = HOMEPAGE
         self.running = True
@@ -19,6 +42,11 @@ class Controller:
         self.run()
 
     def run(self):
+        """ Function execute all queries extract from manager.py located
+            in model package
+            All instance of the class DBManager from manager.py
+            Received user's choice and execute queries from manager.py
+        """
         manager = DBManager()
         while self.running:
             if self.page == HOMEPAGE:
@@ -65,6 +93,7 @@ class Controller:
                     products=product_found)
             elif self.page == SUBSTITUTES_LIST:
                 substituts = manager.get_substitute_saved()
+                print(self.choice_product)
                 products = manager.get_products(product_id=self.choice_product)
                 view = SubstituteListView()
                 view.display(substituts=substituts)
